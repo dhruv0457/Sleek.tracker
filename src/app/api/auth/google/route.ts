@@ -16,12 +16,16 @@ export async function GET(req: NextRequest) {
   // Store code verifier in a secure cookie for the callback
   // Use settings that work for cross-site OAuth redirects on Vercel
   const response = NextResponse.redirect(buildGoogleAuthUrl(codeChallenge));
+  const isProduction = process.env.NODE_ENV === "production";
+  const cookieDomain = isProduction ? ".vercel.app" : undefined;
+  
   response.cookies.set("oauth_code_verifier", codeVerifier, {
     httpOnly: true,
     secure: true,
     sameSite: "none", // Required for cross-site OAuth redirect from Google
     maxAge: 600, // 10 minutes
     path: "/",
+    domain: cookieDomain,
   });
 
   return response;
