@@ -23,6 +23,7 @@
     "@tensorflow-models/mobilenet": "^2.1.1",
     "@tensorflow/tfjs": "^4.22.0",
     "@types/pg": "^8.20.3",
+    "@vercel/analytics": "^2.0.1",
     "animejs": "^3.2.2",
     "bcryptjs": "^2.4.3",
     "clsx": "^2.1.1",

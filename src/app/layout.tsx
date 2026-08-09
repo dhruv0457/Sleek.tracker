@@ -42,6 +42,7 @@ export default function RootLayout({
       <body className="bg-bg text-ink antialiased">
         <ThemeBootstrap />
         {children}
+        <Analytics />
       </body>
     </html>
   );
