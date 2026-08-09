@@ -511,3 +511,5 @@ If you want **push-style** reminders even when nobody has the dashboard open:
 ---
 
 **That's it. You now have a working, $0/month, AI-powered habit tracker running entirely from your laptop.**
+   
+ 
