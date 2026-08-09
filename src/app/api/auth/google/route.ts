@@ -13,21 +13,26 @@ export async function GET(req: NextRequest) {
   const codeVerifier = crypto.randomUUID().replace(/-/g, "") + crypto.randomUUID().replace(/-/g, "");
   const codeChallenge = await generateCodeChallenge(codeVerifier);
 
+  // Cookie settings that work for Vercel deployments (production + preview)
+  const cookieOptions = {
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax", // Works for same-site OAuth redirects
+    maxAge: 600, // 10 minutes
+    path: "/",
+  };
+
   // Store code verifier in a secure cookie for the callback
   const response = NextResponse.redirect(buildGoogleAuthUrl(codeChallenge));
-
-  // Determine if we're in production (HTTPS)
-  const isProduction = process.env.NODE_ENV === "production";
-  
   response.cookies.set("oauth_code_verifier", codeVerifier, {
     httpOnly: true,
-    secure: true, // Always secure in production
-    sameSite: "none", // Allow cross-site for OAuth redirect
-    maxAge: 600, // 10 minutes
+    secure: true,
+    sameSite: "lax",
+    maxAge: 600,
     path: "/",
   });
 
-  return response;
+  return NextResponse.redirect(buildGoogleAuthUrl(codeChallenge));
 }
 
 function buildGoogleAuthUrl(codeChallenge: string): string {
