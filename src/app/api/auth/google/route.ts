@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
     path: "/",
   });
 
-  return NextResponse.redirect(buildGoogleAuthUrl(codeChallenge));
+  return response;
 }
 
 function buildGoogleAuthUrl(codeChallenge: string): string {
