@@ -70,6 +70,8 @@ function userContextJson(habits: any[], aiV: any[]): string {
   return JSON.stringify(totals);
 }
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   if (!checkCsrf(req)) {
     return new Response(JSON.stringify({ error: "Origin mismatch" }), { status: 403, headers: { "Content-Type": "application/json" } });
