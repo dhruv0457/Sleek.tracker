@@ -14,12 +14,12 @@ export async function GET(req: NextRequest) {
   const codeChallenge = await generateCodeChallenge(codeVerifier);
 
   // Store code verifier in a secure cookie for the callback
-  // Use settings that work for cross-site OAuth redirects on Vercel
+  // Use settings that work for Vercel deployments (production + preview)
   const response = NextResponse.redirect(buildGoogleAuthUrl(codeChallenge));
   response.cookies.set("oauth_code_verifier", codeVerifier, {
     httpOnly: true,
     secure: true,
-    sameSite: "none", // Required for cross-site OAuth redirect from Google
+    sameSite: "lax", // Works for same-site OAuth redirects
     maxAge: 600, // 10 minutes
     path: "/",
   });
