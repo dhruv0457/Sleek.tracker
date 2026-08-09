@@ -6,6 +6,8 @@ import { todayStr, last365Days } from "@/lib/utils";
 import { computeTotalTrophies, computeAchievements, perfectDayStreakBuckets } from "@/lib/trophies";
 import { rateLimit } from "@/lib/rateLimit";
 
+export const dynamic = "force-dynamic";
+
 /**
  * GET /api/stats
  *   Authoritative analytics endpoint — drives StatsPanel.

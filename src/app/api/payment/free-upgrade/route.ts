@@ -7,6 +7,8 @@ import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/session";
 import { checkCsrf } from "@/lib/csrf";
 
+export const dynamic = "force-dynamic";
+
 const VALID_TIERS = new Set(["basic_pro", "ultra_pro"]);
 
 export async function POST(req: NextRequest) {

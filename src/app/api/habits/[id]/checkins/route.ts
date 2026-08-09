@@ -4,6 +4,8 @@ import { getSession } from "@/lib/session";
 import { rateLimit } from "@/lib/rateLimit";
 import { checkCsrf } from "@/lib/csrf";
 
+export const dynamic = "force-dynamic";
+
 const VALID_STATUSES = ["pending", "done", "missed", "skipped", "multitask"];
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {

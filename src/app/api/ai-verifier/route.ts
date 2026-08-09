@@ -6,6 +6,8 @@ import { rateLimit, RL_VERIFIER } from "@/lib/rateLimit";
 import { matchPhotoToHabit, verifyHabitPhoto, clarifyHabitPhoto } from "@/lib/nvidiaVision";
 import { checkCsrf } from "@/lib/csrf";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   if (!checkCsrf(req)) return NextResponse.json({ error: "Origin mismatch" }, { status: 403 });
   const session = await getSession();

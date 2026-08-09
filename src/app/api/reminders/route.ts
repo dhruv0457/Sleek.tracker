@@ -5,6 +5,8 @@ import { checkCsrf } from "@/lib/csrf";
 import { rateLimit } from "@/lib/rateLimit";
 import { getUserInfo } from "@/lib/tier";
 
+export const dynamic = "force-dynamic";
+
 const TIME_RE = /^([01]\d|2[0-3]):([0-5]\d)$/;
 
 export async function GET() {

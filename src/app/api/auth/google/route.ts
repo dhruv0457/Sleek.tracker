@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { rateLimit, RL_AUTH } from "@/lib/rateLimit";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   const rl = rateLimit(req, { ...RL_AUTH, keyPrefix: "google-oauth" });
   if (!rl.ok) {

@@ -3,6 +3,8 @@ import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/session";
 import { computeAchievements, computeTotalTrophies, type TrophyCalcInput } from "@/lib/trophies";
 
+export const dynamic = "force-dynamic";
+
 /**
  * Achievements are unlocked by badge milestones (not by trophies).
  * This route returns the TREE-TIMELINE nodes: which achievement tiers the

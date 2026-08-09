@@ -5,6 +5,8 @@ import { getUserInfo } from "@/lib/tier";
 import { rateLimit, RL_WRITE } from "@/lib/rateLimit";
 import { checkCsrf } from "@/lib/csrf";
 
+export const dynamic = "force-dynamic";
+
 const NAME_RE = /^[\p{L}\p{M}0-9\s\-_'",.!?():]{1,140}$/u;
 
 export async function GET() {

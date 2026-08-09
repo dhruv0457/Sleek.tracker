@@ -6,6 +6,7 @@ import { rateLimit, RL_AI } from "@/lib/rateLimit";
 import { nvidiaChat } from "@/lib/nvidia";
 import { checkCsrf } from "@/lib/csrf";
 
+export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
 
 function userContextJson(habits: any[], aiV: any[]): string {

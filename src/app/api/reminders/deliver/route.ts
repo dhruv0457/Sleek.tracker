@@ -64,6 +64,8 @@ async function maybeMondayDigest(userId: string, user: any, dateStr: string, hh:
   return { id: "monday-digest", label, time: "08:00", habitName: todays[0]?.name ?? null, viaEmail: true };
 }
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   // This route sends real emails as a side effect of a POST, so we must guard
   // against CSRF (a cross-site <form> can silently trigger mail spam on a

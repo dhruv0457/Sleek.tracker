@@ -9,6 +9,8 @@ import { rateLimit } from "@/lib/rateLimit";
 import { checkCsrf } from "@/lib/csrf";
 import { computeTotalTrophies, focusTrophies, computeFocusBadges } from "@/lib/trophies";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   if (!checkCsrf(req)) return NextResponse.json({ error: "Origin mismatch" }, { status: 403 });
 

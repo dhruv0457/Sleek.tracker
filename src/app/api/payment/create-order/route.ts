@@ -4,6 +4,8 @@ import { checkCsrf } from "@/lib/csrf";
 import { rateLimit, RL_WRITE } from "@/lib/rateLimit";
 import { createRazorpayOrder, RAZORPAY_KEY_ID } from "@/lib/razorpay";
 
+export const dynamic = "force-dynamic";
+
 const PLAN_AMOUNTS: Record<string, number> = {
   basic_pro: 200, // $2.00 = 200 paise
   ultra_pro: 400, // $4.00 = 400 paise

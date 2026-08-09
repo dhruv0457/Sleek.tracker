@@ -3,6 +3,8 @@ import { cookies } from "next/headers";
 import { randomBytes } from "crypto";
 import { getSession } from "@/lib/session";
 
+export const dynamic = "force-dynamic";
+
 // Step 1: kick off Google OAuth. Requires an active session (the callback
 // binds the returned token to that userId) and emits a random `state`
 // cookie that the callback verifies to prevent OAuth CSRF / code injection.

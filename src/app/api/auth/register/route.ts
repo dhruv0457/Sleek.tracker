@@ -5,6 +5,8 @@ import { getSession } from "@/lib/session";
 import { rateLimit, RL_AUTH } from "@/lib/rateLimit";
 import { checkCsrf } from "@/lib/csrf";
 
+export const dynamic = "force-dynamic";
+
 const TRIAL_MS = 2 * 24 * 60 * 60 * 1000; // 2 days
 const NAME_RE = /^[\p{L}\p{M}'\s-]{1,80}$/u;
 const LOCALITY_RE = /^[\p{L}\p{M}0-9\s,.'-]{0,120}$/u;

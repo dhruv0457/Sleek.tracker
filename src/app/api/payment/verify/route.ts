@@ -5,6 +5,8 @@ import { rateLimit, RL_WRITE } from "@/lib/rateLimit";
 import { verifyPaymentSignature } from "@/lib/razorpay";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 const PLAN_TIERS: Record<string, "basic_pro" | "ultra_pro"> = {
   basic_pro: "basic_pro",
   ultra_pro: "ultra_pro",

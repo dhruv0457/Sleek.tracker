@@ -5,6 +5,8 @@ import { rateLimit } from "@/lib/rateLimit";
 import { checkCsrf } from "@/lib/csrf";
 import { getSession } from "@/lib/session";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   if (!checkCsrf(req)) return NextResponse.json({ error: "Origin mismatch" }, { status: 403 });
 

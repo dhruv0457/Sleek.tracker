@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/session";
 import { checkCsrf } from "@/lib/csrf";
 
+export const dynamic = "force-dynamic";
+
 const MAX_AVATAR_LEN = 350_000; // ~256 KB after base64 decode
 export async function PATCH(req: NextRequest) {
   if (!checkCsrf(req)) return NextResponse.json({ error: "Origin mismatch" }, { status: 403 });

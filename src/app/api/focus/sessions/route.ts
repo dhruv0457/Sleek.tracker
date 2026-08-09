@@ -10,6 +10,8 @@ import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/session";
 import { focusTrophies, computeFocusBadges } from "@/lib/trophies";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: NextRequest) {
   const session = await getSession();
   if (!session.userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

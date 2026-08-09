@@ -4,6 +4,8 @@ import { prisma } from "@/lib/prisma";
 import { trialDaysLeft } from "@/lib/tier";
 import { rateLimit, RL_WRITE } from "@/lib/rateLimit";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: Request) {
   const rl = rateLimit(req, { ...RL_WRITE, keyPrefix: "auth-me" });
   if (!rl.ok) {

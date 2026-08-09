@@ -5,6 +5,8 @@ import { checkCsrf } from "@/lib/csrf";
 import { sendMail } from "@/lib/mailer";
 import crypto from "crypto";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   if (!checkCsrf(req)) return NextResponse.json({ error: "Origin mismatch" }, { status: 403 });
 

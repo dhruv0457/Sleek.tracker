@@ -3,6 +3,8 @@ import { getSession } from "@/lib/session";
 import { deleteGWorkspaceToken } from "@/lib/gworkspace";
 import { checkCsrf } from "@/lib/csrf";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   if (!checkCsrf(req)) return NextResponse.json({ error: "Origin mismatch" }, { status: 403 });
 
