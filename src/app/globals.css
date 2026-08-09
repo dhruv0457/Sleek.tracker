@@ -1,0 +1,935 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* =========================================================================
+   sleek — "embrace the friction and light up the night"
+   Apple-inspired restraint:
+     • Black + white dominate surfaces and ink
+     • Green / blue / yellow as functional accents (states, highlights)
+     • No pink, no purple, no aurora gradients
+   Dark theme: true near-black, high legibility.
+   ========================================================================= */
+:root {
+  /* Surfaces — pure white + neutral gray, no tint */
+  --bg:           #ffffff;
+  --bg-2:         #f5f5f7;   /* Apple-secondary gray */
+  --surface:      #ffffff;
+  --surface-2:   #fafafa;
+
+  /* Ink — true black on white, no violet */
+  --ink:          #1d1d1f;   /* Apple-ink */
+  --ink-soft:     #424245;
+  --ink-muted:    #6e6e73;
+
+  --line:         #d2d2d7;   /* neutral hairline */
+  --line-soft:    #e5e5ea;
+
+  /* ── Functional accent families (used as states / highlights only) ── */
+  /* Green — completed / growth / success */
+  --green-700:    #047857;
+  --green-600:    #059669;
+  --green-500:    #10b981;
+  --green-400:    #34d399;
+  --green-300:    #6ee7b7;
+  --green-200:    #a7f3d0;
+  --green-100:    #d1fae5;
+  --green-50:     #ecfdf5;
+
+  /* Blue — primary interactive / focus / links */
+  --blue-700:     #1d4ed8;
+  --blue-600:     #2563eb;
+  --blue-500:     #3b82f6;
+  --blue-400:     #60a5fa;
+  --blue-300:     #93c5fd;
+  --blue-200:     #bfdbfe;
+  --blue-100:     #dbeafe;
+  --blue-50:      #eff6ff;
+
+  /* Cyan / Light Blue — distinct from green, used for AI, science, 3D effects */
+  --cyan-700:     #0e7490;
+  --cyan-600:     #0891b2;
+  --cyan-500:     #06b6d4;
+  --cyan-400:     #22d3ee;
+  --cyan-300:     #67e8f9;
+  --cyan-200:     #a5f3fc;
+  --cyan-100:     #cffafe;
+  --cyan-50:      #ecfeff;
+
+  /* Yellow — trophies / highlights / attention */
+  --yellow-700:   #a16207;
+  --yellow-600:   #ca8a04;
+  --yellow-500:   #eab308;
+  --yellow-400:   #facc15;
+  --yellow-300:   #fde047;
+  --yellow-200:   #fef08a;
+  --yellow-100:   #fef9c3;
+  --yellow-50:    #fefce8;
+
+  /* Kept legacy aliases (mapped to new neutrals) so existing code doesn't break */
+  --amber-100: #fef9c3;
+  --amber-300: #fde047;
+  --amber-500: #f5b812;
+  --amber-600: #a86c04;
+
+  --flame-bg: #fff7ed;
+  --flame-fg: #ea580c;
+
+  /* Calendar states — reused to new families */
+  --c-done-full:    var(--green-500);
+  --c-done-high:    var(--green-300);
+  --c-yellow-dark:  var(--yellow-500);
+  --c-yellow-light: var(--yellow-200);
+  --c-blue-dark:    var(--blue-600);
+  --c-blue-light:   var(--blue-200);
+  --c-skipped:      #ffffff;
+
+  /* Primary accent — BLUE (replaces old purple) */
+  --accent-color: var(--blue-600);
+  --accent-soft:  var(--blue-50);
+  --accent-700:   var(--blue-700);
+
+  /* Gradients — only black↔gray monochrome (no aurora/forest) */
+  --grad-ink:      linear-gradient(180deg, #1d1d1f 0%, #2a2a2e 100%);
+  --grad-paper:    linear-gradient(180deg, #ffffff 0%, #f5f5f7 100%);
+
+  /* Soft elevation shadows — neutral, no color tint */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, .04), 0 1px 3px rgba(0, 0, 0, .04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, .06), 0 2px 4px rgba(0, 0, 0, .04);
+  --shadow-lg: 0 18px 38px rgba(0, 0, 0, .10), 0 6px 12px rgba(0, 0, 0, .05);
+  --shadow-glow: 0 0 0 3px var(--blue-100);
+
+  /* Red / Coral aliases — used for destructive actions + validation errors */
+  --coral-50:  #fef2f2;
+  --coral-100: #fee2e2;
+  --coral-200: #fecaca;
+  --coral-300: #fca5a5;
+  --coral-400: #f87171;
+  --coral-500: #ef4444;
+  --coral-600: #dc2626;
+  --coral-700: #b91c1c;
+}
+
+/* ===== Dark theme — true near-black, high legibility (Apple-dark reference) ===== */
+html[data-theme="dark"] {
+  --bg:           #000000;   /* Apple-dark uses true black */
+  --bg-2:         #0a0a0c;
+  --surface:      #161617;
+  --surface-2:   #1c1c1e;
+  --line:         #2a2a2e;
+  --line-soft:    #1f1f22;
+
+  /* Light text on black */
+  --ink:          #f5f5f7;
+  --ink-soft:     #d2d2d7;
+  --ink-muted:    #8e8e93;
+
+  /* Pastel families dimmed */
+  --green-50:  #0a1a14;
+  --green-100: #0e2418;
+  --green-200: #143625;
+  --green-300: #1f6347;
+  --green-400: #34d399;
+  --green-500: #6ee7b7;
+  --green-600: #a7f3d0;
+  --green-700: #d1fae5;
+
+  --blue-50:  #0a1726;
+  --blue-100: #0e2138;
+  --blue-200: #143252;
+  --blue-300: #1d4ed8;
+  --blue-400: #60a5fa;
+  --blue-500: #93c5fd;
+  --blue-600: #bfdbfe;
+  --blue-700: #dbeafe;
+
+  /* Cyan / Light Blue dark theme */
+  --cyan-50:  #081a1f;
+  --cyan-100: #0c2a36;
+  --cyan-200: #103a4a;
+  --cyan-300: #155e75;
+  --cyan-400: #67e8f9;
+  --cyan-500: #a5f3fc;
+  --cyan-600: #cffafe;
+  --cyan-700: #ecfeff;
+
+  --yellow-50:  #2a2008;
+  --yellow-100: #3a2a0e;
+  --yellow-200: #4a3a18;
+  --yellow-300: #fde047;
+  --yellow-400: #facc15;
+  --yellow-500: #eab308;
+  --yellow-600: #ca8a04;
+  --yellow-700: #a16207;
+
+  --amber-100: #2a1f08;
+  --c-skipped: #161617;
+  --flame-bg: #2a1f08;
+  --flame-fg: #f97316;
+
+  /* Red/Coral in dark mode */
+  --coral-50:  #1a0e0e;  --coral-100: #2a0e0e;
+  --coral-200: #3a1414;  --coral-300: #5a1414;
+  --coral-400: #ef4444;  --coral-500: #ef4444;
+  --coral-600: #f87171;  --coral-700: #fca5a5;
+
+  --accent-color: var(--blue-400);
+  --accent-soft:  var(--blue-100);
+  --accent-700:   var(--blue-300);
+  --shadow-glow: 0 0 0 3px rgba(96, 165, 250, .35);
+
+  --grad-ink:   linear-gradient(180deg, #000000 0%, #1a1a1d 100%);
+  --grad-paper: linear-gradient(180deg, #000000 0%, #0a0a0c 100%);
+}
+
+html[data-theme="dark"] .badge-card.earned { background: var(--surface-2); }
+html[data-theme="dark"] .cal-cell.skipped { background: var(--surface); }
+html[data-theme="dark"] .heat-cell.skipped { background: var(--surface); }
+html[data-theme="dark"] .glass {
+  background: rgba(10, 10, 12, .72);
+  border-bottom-color: var(--line);
+}
+
+/* ===== Interactive accents ===== */
+.btn-primary,
+.btn-blue,
+.btn-green,
+.btn-ghost,
+.btn-aurora {
+  transition: transform .18s cubic-bezier(.22, 1, .36, 1),
+              background .18s ease, border-color .18s ease, box-shadow .18s ease, opacity .18s ease;
+}
+.btn-primary:hover,
+.btn-blue:hover,
+.btn-green:hover { transform: translateY(-1px); box-shadow: var(--shadow-sm); }
+.btn-primary:active,
+.btn-blue:active,
+.btn-green:active { transform: translateY(0); box-shadow: none; }
+
+.input:focus,
+input:focus,
+textarea:focus,
+select:focus { border-color: var(--blue-500); box-shadow: var(--shadow-glow); outline: none; }
+
+.card,
+.panel,
+.panel-flat,
+.card-flat { box-shadow: var(--shadow-sm); transition: box-shadow .25s ease, transform .25s ease; }
+.card:hover, .panel:hover { box-shadow: var(--shadow-md); }
+
+/* ===== Recognizable checkbox (Apple-style box) =====
+   A solid-bordered square. When checked, fills with the accent color and
+   shows a crisp white tick. Clearly looks like a checkbox to every user. */
+.sleek-check {
+  --size: 22px;
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: var(--size);
+  height: var(--size);
+  border: 1.5px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color .15s ease, background .15s ease, transform .12s ease;
+}
+.sleek-check:hover { border-color: var(--blue-500); transform: scale(1.04); }
+.sleek-check:active { transform: scale(.96); }
+.sleek-check[data-checked="true"] {
+  background: var(--green-500);
+  border-color: var(--green-500);
+}
+.sleek-check[data-checked="true"]::after {
+  content: "";
+  width: 7px;
+  height: 12px;
+  border-right: 2.5px solid #fff;
+  border-bottom: 2.5px solid #fff;
+  transform: rotate(45deg) translate(-1px, -1px);
+  animation: tickPop .22s cubic-bezier(.22, 1, .36, 1) both;
+}
+@keyframes tickPop {
+  0%   { transform: rotate(45deg) scale(.2) translate(-1px, -1px); opacity: 0; }
+  60%  { transform: rotate(45deg) scale(1.15) translate(-1px, -1px); opacity: 1; }
+  100% { transform: rotate(45deg) scale(1) translate(-1px, -1px); opacity: 1; }
+}
+
+/* ===== Old Uiverse checkbox (used by some components — keep working but neutral) ===== */
+.check {
+  cursor: pointer;
+  position: relative;
+  margin: auto;
+  width: 18px;
+  height: 18px;
+  -webkit-tap-highlight-color: transparent;
+  transform: translate3d(0, 0, 0);
+}
+.check:before {
+  content: "";
+  position: absolute;
+  top: -15px; left: -15px;
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: rgba(59, 130, 246, .05);
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+.check svg {
+  position: relative;
+  z-index: 1;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: var(--ink-muted);
+  stroke-width: 1.7;
+  transform: translate3d(0, 0, 0);
+  transition: all .2s ease;
+}
+.check svg path { stroke-dasharray: 60; stroke-dashoffset: 0; }
+.check svg polyline { stroke-dasharray: 22; stroke-dashoffset: 66; }
+.check:hover:before { opacity: 1; }
+.check:hover svg { stroke: var(--blue-600); }
+input:checked + .check svg { stroke: var(--blue-600); }
+input:checked + .check svg path { stroke-dashoffset: 60; transition: all .3s linear; }
+input:checked + .check svg polyline { stroke-dashoffset: 42; transition: all .2s linear; transition-delay: .15s; }
+
+/* ===== anime.js mount hooks ===== */
+[data-animate] { opacity: 0; }
+[data-animate].is-animated { opacity: 1; transition: opacity .6s ease, transform .6s cubic-bezier(.22,1,.36,1); }
+
+html, body { min-height: 100%; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  letter-spacing: -0.012em;
+}
+
+/* Apple-style display type: large, tight tracking, sans-serif.
+   We use SF Pro stack so it matches Apple where available. Serif stays for
+   editorial accents when explicitly requested. */
+h1, h2, h3, h4 {
+  color: var(--ink);
+  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+  letter-spacing: -0.022em;
+  font-weight: 600;
+}
+
+.tabular-nums { font-variant-numeric: tabular-nums; }
+
+.ink       { color: var(--ink); }
+.ink-soft  { color: var(--ink-soft); }
+.meta      { color: var(--ink-muted); font-family: var(--font-mono), ui-monospace, monospace; font-size: .82em; letter-spacing: .03em; }
+.label-xs  {
+  font-family: var(--font-sans), -apple-system, sans-serif;
+  font-size: .72rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--ink-muted);
+}
+.section-title {
+  font-family: var(--font-sans), -apple-system, sans-serif;
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.022em;
+}
+
+/* Scrollbar — slim and tonal */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; border: 2px solid var(--bg); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-muted); }
+
+/* ===== App frame — soft Apple-like radii ===== */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+.panel-flat {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 1.5rem;
+}
+.card-flat {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 1.5rem;
+}
+
+.app-header {
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+}
+
+/* Buttons */
+.btn-primary {
+  background: var(--ink);
+  color: white;
+  border-radius: 980px;
+  padding: .7rem 1.4rem;
+  font-weight: 500;
+  font-size: .92rem;
+  border: none;
+  transition: background .18s ease, transform .18s ease;
+}
+.btn-primary:hover { background: #000; }
+.btn-primary:active { background: #000; transform: scale(.98); }
+.btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+
+/* Alias: btn-aurora now = primary black pill (so components that referenced
+   the old aurora gradient CTA keep rendering with the primary button style
+   rather than the dead purple gradient). */
+.btn-aurora {
+  background: var(--ink);
+  color: white;
+  border-radius: 980px;
+  padding: .7rem 1.4rem;
+  font-weight: 500;
+  font-size: .92rem;
+  border: none;
+  transition: background .18s ease, transform .18s ease, box-shadow .18s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+}
+.btn-aurora:hover { background: #000; transform: translateY(-1px); box-shadow: 0 12px 28px rgba(0, 0, 0, .22); }
+
+.btn-blue {
+  background: var(--blue-600);
+  color: white;
+  border-radius: 980px;
+  padding: .7rem 1.4rem;
+  font-weight: 500;
+  font-size: .92rem;
+  border: none;
+  transition: background .18s ease, transform .18s ease;
+}
+.btn-blue:hover { background: var(--blue-700); }
+.btn-blue:disabled { opacity: .5; cursor: not-allowed; }
+
+.btn-green {
+  background: var(--green-600);
+  color: white;
+  border-radius: 980px;
+  padding: .7rem 1.4rem;
+  font-weight: 500;
+  font-size: .92rem;
+  border: none;
+  transition: background .15s ease;
+}
+.btn-green:hover { background: var(--green-700); }
+.btn-green:disabled { opacity: .5; cursor: not-allowed; }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 980px;
+  padding: .65rem 1.25rem;
+  font-weight: 500;
+  font-size: .9rem;
+  transition: background .18s ease, border-color .18s ease, color .18s ease;
+}
+.btn-ghost:hover { background: var(--bg-2); border-color: var(--ink); }
+
+/* Inputs */
+.input {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: .7rem .95rem;
+  color: var(--ink);
+  outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
+  font-size: .95rem;
+}
+.input::placeholder { color: var(--ink-muted); opacity: .7; }
+.input:focus { border-color: var(--blue-500); box-shadow: var(--shadow-glow); }
+
+/* Chips */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .25rem .65rem;
+  border-radius: 980px;
+  font-size: .72rem;
+  font-weight: 500;
+  background: var(--bg-2);
+  color: var(--ink-soft);
+  border: 1px solid var(--line);
+}
+.chip-green  { background: var(--green-100);  color: var(--green-700);  border-color: var(--green-200); }
+.chip-blue   { background: var(--blue-100);  color: var(--blue-700);   border-color: var(--blue-200); }
+.chip-pink,
+.chip-purple { background: var(--bg-2);       color: var(--ink-soft);  border-color: var(--line); }  /* aliased to neutral — pink/purple removed */
+.chip-sky    { background: var(--blue-100);   color: var(--blue-700);   border-color: var(--blue-200); }
+.chip-amber { background: var(--yellow-100); color: var(--yellow-700); border-color: var(--yellow-200); }
+
+/* ===== Calendar grid ===== */
+.cal-grid {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.cal-cell {
+  border: 1px solid var(--line-soft);
+  border-radius: 6px;
+  position: relative;
+  background: var(--surface);
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.cal-cell:hover { transform: scale(1.06); z-index: 5; box-shadow: 0 0 0 2px var(--blue-500); }
+.cal-cell.done-full   { background: var(--c-done-full); }
+.cal-cell.done-high   { background: var(--c-done-high); }
+.cal-cell.yellow-dark { background: var(--c-yellow-dark); }
+.cal-cell.yellow-light{ background: var(--c-yellow-light); }
+.cal-cell.blue-dark   { background: var(--c-blue-dark); }
+.cal-cell.blue-light  { background: var(--c-blue-light); }
+.cal-cell.skipped     { background: var(--c-skipped); }
+.cal-cell.pending     { background: var(--bg-2); }
+.cal-cell.future      { background: var(--bg-2); opacity: .5; cursor: default; }
+.cal-cell.future:hover { transform: none; box-shadow: none; }
+.cal-cell.today       { box-shadow: inset 0 0 0 2px var(--blue-600); }
+.cal-cell.locked      { cursor: not-allowed; opacity: .85; }
+.cal-cell.locked:hover { transform: none; box-shadow: none; }
+
+/* ===== Heatmap ===== */
+.heat-grid {
+  display: grid;
+  gap: 2px;
+  background: var(--line-soft);
+  padding: 2px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+/* Horizontal thin scroll (used by the 30-phase roadmap) */
+.horizontal-thin-scroll::-webkit-scrollbar { height: 8px; }
+.horizontal-thin-scroll::-webkit-scrollbar-track { background: transparent; }
+.horizontal-thin-scroll::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
+.heat-cell {
+  background: var(--surface);
+  border-radius: 3px;
+  transition: transform .12s ease;
+  cursor: pointer;
+  position: relative;
+  width: 14px;
+  height: 14px;
+}
+.heat-cell:hover { transform: scale(1.6); z-index: 10; box-shadow: 0 0 0 1px var(--blue-500); }
+.heat-cell.h-1 { background: var(--green-300); }
+.heat-cell.h-2 { background: var(--green-500); }
+.heat-cell.h-3 { background: var(--green-700); }
+.heat-cell.skipped { background: var(--surface); border: 1px solid var(--line); }
+
+/* ===== Badges ===== */
+.badge-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 1.4rem;
+  text-align: center;
+  position: relative;
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.badge-card.earned {
+  border-color: var(--yellow-400);
+  background: linear-gradient(160deg, var(--surface) 0%, var(--yellow-50) 100%);
+  box-shadow: 0 8px 24px rgba(234, 179, 8, .14);
+}
+.badge-card.earned:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(234, 179, 8, .24); }
+.badge-card.locked { opacity: .9; }
+.badge-card.locked .badge-glow {
+  display: inline-block;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--ink-muted);
+  padding: .5rem 1rem;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  border-radius: 12px;
+  position: relative;
+  animation: glowPulse 2.4s ease-in-out infinite;
+}
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(234, 179, 8, .4); }
+  50%      { box-shadow: 0 0 0 10px rgba(234, 179, 8, 0); }
+}
+.badge-line {
+  font-size: .82rem;
+  color: var(--ink-soft);
+  font-style: italic;
+  margin-top: .65rem;
+}
+
+/* ===== Sidebar nav ===== */
+.nav-btn {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: .75rem;
+  padding: .65rem .95rem;
+  font-size: .9rem;
+  font-weight: 500;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--ink-soft);
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+  text-align: left;
+  cursor: pointer;
+}
+.nav-btn:hover { background: var(--bg-2); color: var(--ink); }
+.nav-btn.active {
+  background: var(--blue-50);
+  color: var(--blue-700);
+  border-color: var(--blue-200);
+  font-weight: 600;
+}
+.nav-btn.active .nav-ico { color: var(--blue-600); }
+.nav-btn:hover:not(.active) { background: var(--bg-2); border-color: var(--line); }
+
+.rail-press { transition: background .15s ease, color .15s ease, transform .12s cubic-bezier(.22, 1, .36, 1); }
+.rail-press svg { transition: transform .15s cubic-bezier(.22, 1, .36, 1); }
+.rail-press:hover svg { transform: scale(1.08); }
+.rail-press:active svg { transform: translate(1px, 1px) scale(.94); }
+.rail-press:active { box-shadow: inset 0 2px 4px rgba(0, 0, 0, .12); }
+
+/* Focus Zone animations */
+@keyframes hail {
+  0%   { transform: translateY(-20px); opacity: 0; }
+  10%  { opacity: 1; }
+  100% { transform: translateY(420px); opacity: .4; }
+}
+@keyframes fall {
+  0%   { transform: translateY(0) rotate(0deg);     opacity: 1; }
+  100% { transform: translateY(200px) rotate(220deg); opacity: 0; }
+}
+
+/* Plain "ink-wordmark" — used by Logo when we don't want the aurora text.
+   The purple/pink aurora-text class is now aliased to plain black ink. */
+.aurora-text {
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  -webkit-text-fill-color: initial;
+  color: var(--ink);
+}
+
+/* ===== Landing page ===== */
+.hero-bg {
+  background:
+    radial-gradient(900px 380px at 80% -10%, rgba(16, 185, 129, .06), transparent 60%),
+    radial-gradient(700px 320px at 10% 0%, rgba(234, 179, 8, .05), transparent 55%),
+    radial-gradient(700px 300px at 50% 100%, rgba(59, 130, 246, .05), transparent 60%),
+    linear-gradient(180deg, var(--bg) 0%, #ffffff 60%, var(--bg-2) 100%);
+}
+.glass {
+  background: rgba(255, 255, 255, .72);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid var(--line);
+}
+html[data-theme="dark"] .glass {
+  background: rgba(10, 10, 12, .72);
+}
+
+/* ═══════ Layout Mode — desktop vs phone (Settings → Appearance) ═══════
+   data-layout-mode="phone": sidebar becomes an overlay drawer (no inline sidebar),
+   content area centers tightly, compact header. On real desktop width (≥ 900px)
+   normal sidebar returns automatically — safe for desktop users who try phone mode. */
+
+/* Desktop mode: inline sidebar visible. Phone mode: hide it. */
+html[data-layout-mode="phone"] .desktop-sidebar { display: none !important; }
+html[data-layout-mode="phone"] .desktop-toggle { display: none !important; }
+html[data-layout-mode="phone"] .phone-toggle { display: inline-flex !important; }
+
+/* Desktop mode: overlay hidden. */
+.phone-toggle { display: none !important; }
+
+/* Auto phone-mode on small screens — regardless of explicit setting,
+   narrow viewports get the slide-out drawer behaviour. The CSS
+   attribute may say "desktop" but at ≤ 768px we force phone layouts. */
+@media (max-width: 767px) {
+  html .desktop-sidebar { display: none !important; }
+  html .desktop-toggle { display: none !important; }
+  html .phone-toggle { display: inline-flex !important; }
+  html .desktop-collapse-btn { display: none !important; }
+  html .phone-close-btn { display: grid !important; }
+}
+
+@media (min-width: 768px) {
+  /* On tablet+ screens, phone mode still uses overlay (not inline sidebar) */
+  html[data-layout-mode="phone"] .desktop-sidebar { display: none !important; }
+  html[data-layout-mode="phone"] .phone-toggle { display: inline-flex !important; }
+  /* In phone layout mode, show close button inside drawer, hide collapse */
+  html[data-layout-mode="phone"] .desktop-collapse-btn { display: none !important; }
+  html[data-layout-mode="phone"] .phone-close-btn { display: grid !important; }
+}
+
+@media (min-width: 900px) {
+  /* On wider screens, even phone mode shows the inline sidebar — overlay not needed. */
+  html[data-layout-mode="phone"] .desktop-sidebar { display: block !important; }
+  html[data-layout-mode="phone"] .desktop-toggle { display: inline-flex !important; }
+  html[data-layout-mode="phone"] .phone-toggle { display: none !important; }
+  /* Inline sidebar uses its own collapse button (not the close X) */
+  html[data-layout-mode="phone"] .desktop-collapse-btn { display: grid !important; }
+  html[data-layout-mode="phone"] .phone-close-btn { display: none !important; }
+}
+
+/* Upgrade-CTA buttons hide text on small screens to save space */
+@media (max-width: 480px) {
+  .upgrade-cta { padding-left: 0.5rem !important; padding-right: 0.5rem !important; }
+  .upgrade-cta-label { display: none !important; }
+}
+
+/* Micro animations */
+@keyframes pop {
+  0% { transform: scale(.85); opacity: 0; }
+  60% { transform: scale(1.08); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.animate-pop { animation: pop .32s cubic-bezier(.22, 1, .36, 1); }
+
+@keyframes caretBlink { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up { animation: fadeUp .7s cubic-bezier(.22, 1, .36, 1) both; }
+
+/* Apple-style scale-in: starts larger & blurred, settles in */
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(40px) scale(.96); filter: blur(8px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+.animate-reveal { animation: revealUp .9s cubic-bezier(.22, 1, .36, 1) both; }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.animate-float { animation: float 4s ease-in-out infinite; }
+
+@keyframes barIn {
+  from { height: 0; opacity: 0; }
+  to { opacity: 1; }
+}
+.bar-anim { animation: barIn .5s cubic-bezier(.22, 1, .36, 1) both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float, .animate-pop, .animate-fade-up, .animate-reveal, .bar-anim { animation: none !important; }
+  .heat-cell:hover { transform: none; }
+}
+
+* { box-sizing: border-box; }
+*:focus-visible { outline: 2px solid var(--blue-500); outline-offset: 2px; }
+
+/* Reveal-on-scroll utility for Apple-style sections.
+   Elements with class `reveal` start hidden and get `.is-in` toggled
+   by an IntersectionObserver. The transition is smooth and premium. */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s cubic-bezier(.22, 1, .36, 1),
+              transform 1s cubic-bezier(.22, 1, .36, 1),
+              filter 1s cubic-bezier(.22, 1, .36, 1);
+  filter: blur(6px);
+  will-change: opacity, transform;
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+.reveal-scale {
+  opacity: 0;
+  transform: scale(1.1);
+  transition: opacity 1.2s cubic-bezier(.22,1,.36,1), transform 1.2s cubic-bezier(.22,1,.36,1);
+}
+.reveal-scale.is-in { opacity: 1; transform: scale(1); }
+
+/* Apple-style sticky scroll panels — child blocks rise and crossfade on scroll.
+   Driven by JS via inline `--reveal` custom property (0..1). */
+.scrollyte section { position: relative; }
+
+/* Scroll-pinned big sections: while the section is in the viewport, content
+   inside scales up subtly + fades to lower contrast, mimicking Apple's
+   product-page "video scroll". Drive with `--reveal` (0..1) which the hook
+   updates continuously. */
+.pinned-stage {
+  position: relative;
+  /* element reads --reveal and we just feed it through CSS calc chains.
+     Sub-properties defined on specific child classes below. */
+}
+.pinned-grow {
+  transform: scale(calc(1 + var(--reveal, 0) * 0.08));
+  filter: blur(calc((1 - var(--reveal, 0)) * 6px));
+  opacity: calc(0.35 + var(--reveal, 0) * 0.65);
+  transition: opacity .25s ease;
+  will-change: transform, opacity, filter;
+}
+.pinned-rise {
+  transform: translateY(calc((1 - var(--reveal, 0)) * 60px));
+  opacity: var(--reveal, 0);
+  will-change: transform, opacity;
+}
+
+/* Apple-style sticky pinned card (full-height section that pins while you
+   scroll past it, then unpins and lets the page continue). */
+.pinned-card {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* Inner content scales + fades as you scroll past the pinned card.
+     Driven by parent's scroll-progress (--reveal). */
+}
+/* Outer wrapper creates extra scroll distance over the pinned card so the
+   user scrolls through the stage instead of seeing it skip past. */
+.pinned-frame {
+  position: relative;
+  height: 200vh;  /* ~2 viewports so there's room to scrub through */
+}
+
+/* ─── Landing DeepDive animations ─── */
+@keyframes floaty {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.float-anim { animation: floaty 5s ease-in-out infinite; }
+
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.4); opacity: 1; }
+}
+.pulse-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green-600, #10b981);
+  animation: pulseDot 1.6s ease-in-out infinite;
+  margin-right: 4px;
+}
+
+@keyframes pulseRing {
+  0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.5); }
+  70% { box-shadow: 0 0 0 12px rgba(59, 130, 246, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+.pulse-ring { animation: pulseRing 2s ease-out infinite; }
+
+@keyframes scanSweep {
+  0% { opacity: 0.3; transform: scaleY(0.6); }
+  50% { opacity: 1; transform: scaleY(1); }
+  100% { opacity: 0.3; transform: scaleY(0.6); }
+}
+.scan-anim { animation: scanSweep 1.4s ease-in-out infinite; transform-origin: center; }
+
+@keyframes shimmerText {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+.shimmer-text {
+  background: linear-gradient(90deg, #34d399 0%, #3b82f6 20%, #06b6d4 40%, #60a5fa 60%, #34d399 80%, #3b82f6 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmerText 3.5s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes expandRing {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+@keyframes rainDrop {
+  0% { opacity: 0; transform: translateY(-20px); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(600px); }
+}
+
+/* ─── Landing page candy animations ─── */
+@keyframes blobFloat1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(60px, -40px) scale(1.08); }
+  50% { transform: translate(20px, -80px) scale(0.94); }
+  75% { transform: translate(-30px, -30px) scale(1.04); }
+}
+@keyframes blobFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(-50px, -20px) scale(1.06); }
+  50% { transform: translate(-10px, -60px) scale(0.92); }
+  75% { transform: translate(40px, -50px) scale(1.1); }
+}
+@keyframes blobFloat3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, 30px) scale(1.05); }
+  66% { transform: translate(-40px, -10px) scale(0.96); }
+}
+.landing-blob { pointer-events: none; }
+.landing-blob-1 { animation: blobFloat1 18s ease-in-out infinite; }
+.landing-blob-2 { animation: blobFloat2 22s ease-in-out infinite; }
+.landing-blob-3 { animation: blobFloat3 20s ease-in-out infinite; }
+
+@keyframes cardTilt {
+  0% { transform: perspective(600px) rotateX(0) rotateY(0); }
+  100% { transform: perspective(600px) rotateX(var(--tilt-x, 0)) rotateY(var(--tilt-y, 0)); }
+}
+.card-tilt {
+  transition: transform 0.4s cubic-bezier(.22,1,.36,1), box-shadow 0.4s ease;
+  transform-style: preserve-3d;
+}
+.card-tilt:hover {
+  box-shadow: 0 24px 48px rgba(59, 130, 246, 0.15), 0 8px 20px rgba(6, 182, 212, 0.1);
+}
+
+@keyframes statCountIn {
+  0% { opacity: 0; transform: translateY(16px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.stat-reveal {
+  animation: statCountIn 0.7s cubic-bezier(.22,1,.36,1) both;
+  animation-play-state: paused;
+}
+.stat-reveal.is-visible {
+  animation-play-state: running;
+}
+
+@keyframes gradientPan {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.gradient-pan {
+  background-size: 200% 200%;
+  animation: gradientPan 8s ease infinite;
+}
