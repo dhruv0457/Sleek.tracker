@@ -32,8 +32,10 @@ function createPrismaClient(): PrismaClient {
     // Idle-lambda connections time out so warm lambdas don't hold them.
     idleTimeoutMillis: 30_000,
     connectionTimeoutMillis: 10_000,
+    // SSL is required for Supabase
+    ssl: process.env.NODE_ENV === "production" ? { rejectUnauthorized: false } : false,
   });
-  const adapter = new PrismaPg(pool);
+  const adapter = new (require("@prisma/adapter-pg").PrismaPg)(pool);
   return new PrismaClient({ adapter, log });
 }
 

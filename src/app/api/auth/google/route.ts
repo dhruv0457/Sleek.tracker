@@ -16,10 +16,13 @@ export async function GET(req: NextRequest) {
   // Store code verifier in a secure cookie for the callback
   const response = NextResponse.redirect(buildGoogleAuthUrl(codeChallenge));
 
+  // Determine if we're in production (HTTPS)
+  const isProduction = process.env.NODE_ENV === "production";
+  
   response.cookies.set("oauth_code_verifier", codeVerifier, {
     httpOnly: true,
-    secure: true,
-    sameSite: "lax",
+    secure: true, // Always secure in production
+    sameSite: "none", // Allow cross-site for OAuth redirect
     maxAge: 600, // 10 minutes
     path: "/",
   });
