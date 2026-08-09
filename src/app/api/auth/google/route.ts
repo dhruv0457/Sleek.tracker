@@ -13,22 +13,14 @@ export async function GET(req: NextRequest) {
   const codeVerifier = crypto.randomUUID().replace(/-/g, "") + crypto.randomUUID().replace(/-/g, "");
   const codeChallenge = await generateCodeChallenge(codeVerifier);
 
-  // Cookie settings that work for Vercel deployments (production + preview)
-  const cookieOptions = {
-    httpOnly: true,
-    secure: true,
-    sameSite: "lax", // Works for same-site OAuth redirects
-    maxAge: 600, // 10 minutes
-    path: "/",
-  };
-
   // Store code verifier in a secure cookie for the callback
+  // Use settings that work for cross-site OAuth redirects on Vercel
   const response = NextResponse.redirect(buildGoogleAuthUrl(codeChallenge));
   response.cookies.set("oauth_code_verifier", codeVerifier, {
     httpOnly: true,
     secure: true,
-    sameSite: "lax",
-    maxAge: 600,
+    sameSite: "none", // Required for cross-site OAuth redirect from Google
+    maxAge: 600, // 10 minutes
     path: "/",
   });
 
