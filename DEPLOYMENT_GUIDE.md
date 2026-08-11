@@ -116,13 +116,15 @@ Go to **Vercel Dashboard → Your Project → Settings → Environment Variables
 
 ---
 
-### 🟢 REQUIRED for Google OAuth ("Sign in with Google")
+### 🟢 REQUIRED for Google OAuth ("Sign in with Google" + optional Sheets Export)
 
 | Variable | Value | How to Get |
 |----------|-------|------------|
 | `GOOGLE_CLIENT_ID` | `123456789-abcdefgh.apps.googleusercontent.com` | See **Part 4** below |
 | `GOOGLE_CLIENT_SECRET` | `GOCSPX-xxxxxxxxxxxx` | See **Part 4** below |
-| `GOOGLE_REDIRECT_URI` | `https://sleek-tracker.vercel.app/api/auth/callback` | **Must match exactly** what you put in Google Cloud Console |
+| `GOOGLE_REDIRECT_URI` | `https://sleek-tracker.vercel.app/api/auth/callback` | **Must match exactly** what you put in Google Cloud Console for main auth |
+
+> **Note:** The same `GOOGLE_CLIENT_ID`/`SECRET` is used for **both** flows. You must add **TWO redirect URIs** in Google Cloud Console (see Part 4.4). The Sheets export is an optional Ultra Pro feature already in your code — adding the second URI enables it automatically.
 
 ---
 
@@ -164,11 +166,15 @@ Go to **Vercel Dashboard → Your Project → Settings → Environment Variables
 4. **Authorized JavaScript origins**: 
    - `https://sleek-tracker.vercel.app`
    - `http://localhost:3000` (for local dev)
-5. **Authorized redirect URIs** (MUST BE EXACT):
-   - `https://sleek-tracker.vercel.app/api/auth/callback`
-   - `http://localhost:3000/api/auth/callback`
+5. **Authorized redirect URIs** (MUST BE EXACT — **ADD BOTH**):
+   - `https://sleek-tracker.vercel.app/api/auth/callback` ← **Main sign-in (REQUIRED)**
+   - `https://sleek-tracker.vercel.app/api/gworkspace/callback` ← **Sheets export (optional, but already in code)**
+   - `http://localhost:3000/api/auth/callback` (local dev)
+   - `http://localhost:3000/api/gworkspace/callback` (local dev)
 6. Click **Create**
 7. **COPY** the **Client ID** and **Client Secret** → paste into Vercel env vars
+
+> **Important:** Your codebase includes a "Google Sheets Export" feature (Ultra Pro tier) that uses the **same** Google OAuth credentials but a different callback URL. Adding both redirect URIs costs nothing and enables both features. If you only want sign-in, the second URI just sits unused — no harm done.
 
 ---
 
@@ -272,7 +278,7 @@ Vercel auto-deploys in ~90 seconds.
 
 ---
 
-## 📁 Your Local `.env` File (For Local Development Only)
+## 📁 Your Local `.env.local` File (For Local Development Only)
 
 Create `.env.local` in project root (never commit this!):
 
@@ -284,7 +290,7 @@ DATABASE_URL="postgresql://postgres.xxx:PASSWORD@aws-0-region.pooler.supabase.co
 SESSION_SECRET="your-64-char-secret-from-openssl"
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
 
-# Google OAuth (local)
+# Google OAuth (local) — same credentials as production
 GOOGLE_CLIENT_ID="your-client-id"
 GOOGLE_CLIENT_SECRET="your-client-secret"
 GOOGLE_REDIRECT_URI="http://localhost:3000/api/auth/callback"
@@ -301,7 +307,9 @@ CRON_SECRET="another-64-char-secret"
 OWNER_EMAIL="your-email@example.com"
 ```
 
-For local dev, also add `http://localhost:3000/api/auth/callback` to Google Cloud Console redirect URIs.
+**For local dev, add BOTH redirect URIs to Google Cloud Console:**
+- `http://localhost:3000/api/auth/callback` (main sign-in)
+- `http://localhost:3000/api/gworkspace/callback` (sheets export — optional but in code)
 
 ---
 
