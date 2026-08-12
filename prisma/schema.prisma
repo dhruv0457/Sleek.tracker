@@ -2,53 +2,50 @@ generator client {
   provider = "prisma-client-js"
 }
 
-// Prisma 7 driver-adapter mode: actual DB connection is provided at runtime
-// by the adapter configured in src/lib/prisma.ts.
-// Uses PostgreSQL (Supabase) for both local dev and production.
 datasource db {
   provider = "postgresql"
 }
 
 model User {
-  id           String     @id @default(cuid())
-  email        String     @unique
-  name         String?
-  password     String?
-  provider     String     @default("email") // "email" | "google"
-  avatar       String?
-  bio          String?
-  locality     String?
-  tier         String     @default("free") // "free" | "basic_pro" | "ultra_pro"
-  trialEndAt   DateTime?
-  resetCode    String?    // 6-digit forgot-password code
+  id                 String           @id @default(cuid())
+  email              String           @unique
+  name               String?
+  password           String?
+  provider           String           @default("email")
+  avatar             String?
+  bio                String?
+  locality           String?
+  tier               String           @default("free")
+  trialEndAt         DateTime?
+  resetCode          String?
   resetCodeExpiresAt DateTime?
-  createdAt    DateTime   @default(now())
-  settings      UserSettings?
-  habits       Habit[]
-  badges       Badge[]
-  trophies     Trophy[]
-  contacts      Contact[]
-  reminders    Reminder[]
-  aiMessages   AiMessage[]
-  logs         DailyLog[]
-  aiVerifications AIVerification[]
-  focusSessions FocusSession[]
-  achievements  Achievement[]
+  createdAt          DateTime         @default(now())
+  aiVerifications    AIVerification[]
+  achievements       Achievement[]
+  aiMessages         AiMessage[]
+  badges             Badge[]
+  contacts           Contact[]
+  logs               DailyLog[]
+  focusSessions      FocusSession[]
+  habits             Habit[]
+  reminders          Reminder[]
+  trophies           Trophy?
+  settings           UserSettings?
 }
 
 model UserSettings {
-  userId         String   @id
-  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  multitaskingDefault Boolean @default(false)
-  emailsMorning  Boolean  @default(true)
-  emailsEvening  Boolean  @default(true)
-  pushEnabled    Boolean  @default(true)
-  autoSkipOn     Boolean  @default(true)
-  weekStartMon   Boolean  @default(true)
-  weeklyMondayReminder Boolean @default(false) // send a Monday-morning task digest
-  theme          String   @default("light") // "light" | "dark"
-  timezone       String?  // IANA tz, e.g. "Asia/Kolkata". null -> fall back to server clock.
-  updatedAt      DateTime @updatedAt
+  userId               String   @id
+  multitaskingDefault  Boolean  @default(false)
+  emailsMorning        Boolean  @default(true)
+  emailsEvening        Boolean  @default(true)
+  pushEnabled          Boolean  @default(true)
+  autoSkipOn           Boolean  @default(true)
+  weekStartMon         Boolean  @default(true)
+  weeklyMondayReminder Boolean  @default(false)
+  theme                String   @default("light")
+  timezone             String?
+  updatedAt            DateTime @updatedAt
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Contact {
@@ -59,75 +56,73 @@ model Contact {
   subject   String   @default("(no subject)")
   message   String
   createdAt DateTime @default(now())
-  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  user      User?    @relation(fields: [userId], references: [id])
 
   @@index([userId])
 }
 
 model Habit {
-  id              String    @id @default(cuid())
+  id              String     @id @default(cuid())
   userId          String
   name            String
   description     String?
-  color           String    @default("#22a558")
-  targetMins      Int       @default(30)
-  intensityTarget Int       @default(100) // 80 | 90 | 100 percent capacity target
-  requiresCamera  Boolean   @default(false) // triggers AI Verifier flow
-  schedule        String    @default("daily")
-  createdAt       DateTime  @default(now())
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  color           String     @default("#22a558")
+  targetMins      Int        @default(30)
+  intensityTarget Int        @default(100)
+  requiresCamera  Boolean    @default(false)
+  schedule        String     @default("daily")
+  createdAt       DateTime   @default(now())
   checkins        CheckIn[]
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   reminders       Reminder[]
 
   @@index([userId])
 }
 
 model CheckIn {
-  id            String   @id @default(cuid())
-  habitId       String
-  date          String   // YYYY-MM-DD (immutable once locked)
-  minutes       Int      @default(0)
-  completed     Boolean  @default(false)
-  status        String   @default("pending") // pending | done | missed | skipped | multitask
-  intensity     Int      @default(0) // 0-100 self-reported capacity
-  multitasking  Boolean  @default(false)
-  locked        Boolean  @default(false) // STRICT immutability: any done/missed/skipped locks forever
-  note          String?
-  createdAt     DateTime @default(now())
-  habit          Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
+  id           String   @id @default(cuid())
+  habitId      String
+  date         String
+  minutes      Int      @default(0)
+  completed    Boolean  @default(false)
+  status       String   @default("pending")
+  intensity    Int      @default(0)
+  multitasking Boolean  @default(false)
+  locked       Boolean  @default(false)
+  note         String?
+  createdAt    DateTime @default(now())
+  habit        Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
 
   @@unique([habitId, date])
   @@index([habitId, date])
 }
 
-// Long-term immutable record per user per day (per spec section 13.3)
 model DailyLog {
-  id        String   @id @default(cuid())
-  userId    String
-  date      String   // YYYY-MM-DD
-  summary   String   // JSON: aggregate of tasks that day
-  intensityAvg Int   @default(0)
-  badgesEarned Int    @default(0)
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String   @id @default(cuid())
+  userId       String
+  date         String
+  summary      String
+  intensityAvg Int      @default(0)
+  badgesEarned Int      @default(0)
+  createdAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, date])
   @@index([userId, date])
 }
 
-// In-browser AI Verifier records (links a CheckIn-less habit to a photo + result)
 model AIVerification {
-  id        String   @id @default(cuid())
-  userId    String
-  habitId   String
-  date      String   // YYYY-MM-DD
-  label     String   // top MobileNet label
-  confidence Float  // 0-1
-  passed    Boolean
-  blurry    Boolean
-  imageDataUrl String? // kept small (postage-stamp thumbnail)
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String   @id @default(cuid())
+  userId       String
+  habitId      String
+  date         String
+  label        String
+  confidence   Float
+  passed       Boolean
+  blurry       Boolean
+  imageDataUrl String?
+  createdAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId, date])
 }
@@ -136,13 +131,13 @@ model Reminder {
   id        String   @id @default(cuid())
   userId    String
   habitId   String?
-  time      String   // "HH:MM" 24h, e.g. "11:00", "15:15"
+  time      String
   label     String
-  message   String   @default("") // multi-line email body (optional, max 2000 chars)
+  message   String   @default("")
   enabled   Boolean  @default(true)
   createdAt DateTime @default(now())
+  habit     Habit?   @relation(fields: [habitId], references: [id])
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  habit     Habit?   @relation(fields: [habitId], references: [id], onDelete: SetNull)
 
   @@index([userId])
 }
@@ -152,7 +147,7 @@ model Badge {
   userId     String
   badgeId    String
   level      Int      @default(1)
-  line        String
+  line       String
   unlockedAt DateTime @default(now())
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -160,48 +155,39 @@ model Badge {
   @@index([userId])
 }
 
-// 5 badges = 30 trophies; user's rank on leaderboard
 model Trophy {
-  id         String   @id @default(cuid())
-  userId     String
-  count      Int      @default(0) // total trophies — computed by trophies.ts
-  updatedAt  DateTime @updatedAt
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([userId])
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  count     Int      @default(0)
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-// FocusSession — stored per completed (or discarded) focus block.
-// Used by the badge/trophy math to sum total focus minutes and count sessions.
 model FocusSession {
-  id            String   @id @default(cuid())
-  userId        String
-  durationSec   Int      @default(0)  // total seconds of this session
-  completed     Boolean  @default(true) // false = discarded
-  createdAt     DateTime @default(now())
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id          String   @id @default(cuid())
+  userId      String
+  durationSec Int      @default(0)
+  completed   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
 }
 
-// Persist User's achievement tree node unlocks (so the tree remembers
-// which nodes were "revealed" even after milestones). Optional — the
-// badges route computes achievements dynamically anyway.
 model Achievement {
-  id            String   @id @default(cuid())
-  userId        String
-  level         Int      // 1-7
-  unlockedAt    DateTime @default(now())
-  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String   @id @default(cuid())
+  userId     String
+  level      Int
+  unlockedAt DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, level])
 }
 
-// AI Insights chat history (Gemini) — context injected from logs
 model AiMessage {
   id        String   @id @default(cuid())
   userId    String
-  role      String   // "user" | "model"
+  role      String
   content   String
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -209,23 +195,13 @@ model AiMessage {
   @@index([userId, createdAt])
 }
 
-// ─────────────── Deleted-account archive ───────────────
-// When a user removes their account, their live User row + all related
-// rows (habits, checkins, badges, etc.) are cascade-deleted, BUT first
-// we snapshot a JSON blob containing everything into PastUser. Keyed by
-// email — on next sign-up with the same email, the data restore flow
-// copies the snapshot back into the live tables and removes the PastUser
-// row, so the user gets their habits and history back automatically.
 model PastUser {
   id        String   @id @default(cuid())
   email     String   @unique
   name      String?
   avatar    String?
   provider  String   @default("email")
-  // JSON snapshot of: settings, habits[] (with checkins), badges[],
-  // trophies, reminders[], focusSessions[], achievements[], aiMessages[],
-  // aiVerifications[], dailyLogs[].
-  snapshot   String
+  snapshot  String
   deletedAt DateTime @default(now())
 
   @@index([email])
