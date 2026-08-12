@@ -118,7 +118,7 @@ export async function DELETE(req: NextRequest) {
   // Minimal archive — just counts so we know what the user had, no data
   // is ever restored into a new account. Format: "H:5 C:142 B:3 T:1 ..."
   const checkinCount = user.habits.reduce((s: number, h: { checkins: { id: string }[] }) => s + (h.checkins?.length ?? 0), 0);
-  const summary = `Tier:${user.tier} Trial:${user.trialEndAt?.toISOString().slice(0,10)??"none"} Habits:${user.habits.length} Checkins:${checkinCount} Badges:${user.badges.length} Trophies:${user.trophies.length} Reminders:${user.reminders.length} Sessions:${user.focusSessions.length} AI:${user.aiMessages.length}`;
+  const summary = `Tier:${user.tier} Trial:${user.trialEndAt?.toISOString().slice(0,10)??"none"} Habits:${user.habits.length} Checkins:${checkinCount} Badges:${user.badges.length} Trophies:${user.trophies?.length ?? 0} Reminders:${user.reminders.length} Sessions:${user.focusSessions.length} AI:${user.aiMessages.length}`;
 
   const snapshot = JSON.stringify({
     id: user.id,
