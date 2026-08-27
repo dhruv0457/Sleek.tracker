@@ -40,6 +40,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${serif.variable} ${mono.variable}`}>
+      <head><meta name="google-adsense-account" content="ca-pub-2400695376150743"></head>
       <body className="bg-bg text-ink antialiased">
         <ThemeBootstrap />
         {children}
