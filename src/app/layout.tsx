@@ -8,21 +8,21 @@ const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-sans",
-  display: "swap"
+  display: "swap",
 });
 
 const serif = Source_Serif_4({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-serif",
-  display: "swap"
+  display: "swap",
 });
 
 const mono = IBM_Plex_Mono({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   variable: "--font-mono",
-  display: "swap"
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -31,16 +31,19 @@ export const metadata: Metadata = {
   icons: {
     icon: "/icon.svg",
   },
+  // Correct way to inject custom meta tags into the head using Next.js Metadata API
+  other: {
+    "google-adsense-account": "ca-pub-2400695376150743",
+  },
 };
 
 export default function RootLayout({
-  children
+  children,
 }: {
   children: React.ReactNode;
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${serif.variable} ${mono.variable}`}>
-      <head><meta name="google-adsense-account" content="ca-pub-2400695376150743"></head>
       <body className="bg-bg text-ink antialiased">
         <ThemeBootstrap />
         {children}
