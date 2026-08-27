@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "/icon.svg",
   },
-  // Correct way to inject custom meta tags into the head using Next.js Metadata API
+  // Correct Next.js architecture injection for custom meta tags
   other: {
     "google-adsense-account": "ca-pub-2400695376150743",
   },
