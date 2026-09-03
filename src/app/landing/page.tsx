@@ -41,6 +41,12 @@ export default function LandingPage() {
         onPrimary={goLogin}
         onSecondary={goHow}
       />
+      
+      {/* Visually hidden SEO content for crawlers since LandingHero is ssr:false */}
+      <div className="sr-only">
+        <h1>sleek: embrace the friction. light up the night.</h1>
+        <p>sleek is a focused, beautiful habit + task tracker. Lap your past, grow your streaks, and watch a moon rise alongside your consistency — like a quiet light only you can see. Everything you need to stay consistent — nothing you don't. Email reminders, an NVIDIA-powered chatbot, AI camera verification, and a clean analytics exporter. Designed around one principle: Never miss twice.</p>
+      </div>
       <Features />
       <DeepDive />
       <InteractiveDemo />
@@ -1154,8 +1160,8 @@ function Footer() {
   const year = new Date().getFullYear();
   return (
     <footer className="border-t pt-14 pb-8" style={{ borderColor: "var(--line)" }}>
-      <div className="max-w-7xl mx-auto px-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
-        <div>
+      <div className="max-w-7xl mx-auto px-6 grid sm:grid-cols-2 lg:grid-cols-5 gap-10">
+        <div className="lg:col-span-1">
           <div className="flex items-center gap-2 mb-3">
             <BrandMark size={22} idPrefix="footer" />
             <span className="font-semibold tracking-tight lowercase text-ink">sleek</span>
@@ -1179,6 +1185,14 @@ function Footer() {
             <li><Link href="/about" className="text-ink-soft hover:text-ink">About</Link></li>
             <li><Link href="/contact" className="text-ink-soft hover:text-ink">Contact</Link></li>
             <li><Link href="/faqs" className="text-ink-soft hover:text-ink">FAQs</Link></li>
+          </ul>
+        </div>
+        <div>
+          <div className="label-xs mb-3">Developers</div>
+          <ul className="space-y-1.5 text-[13px]">
+            <li><Link href="/api/docs" className="text-ink-soft hover:text-ink">API Docs</Link></li>
+            <li><Link href="/openapi.json" className="text-ink-soft hover:text-ink">OpenAPI Spec</Link></li>
+            <li><Link href="/llms.txt" className="text-ink-soft hover:text-ink">LLM Guide</Link></li>
           </ul>
         </div>
         <div>

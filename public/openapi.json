@@ -1,0 +1,116 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Sleek API",
+    "description": "Public REST API for sleek, a beautiful habit and task tracker. Used by agents and programmatic clients to fetch stats, manage habits, and check achievements.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://sleek-tracker.vercel.app"
+    },
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "security": [
+    {
+      "OAuth2": ["read:habits", "write:habits"]
+    }
+  ],
+  "paths": {
+    "/api/habits": {
+      "get": {
+        "operationId": "getHabits",
+        "summary": "List habits",
+        "description": "Retrieve a list of all habits for the authenticated user.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string", "description": "Unique identifier for the habit" },
+                      "name": { "type": "string", "description": "Name of the habit" },
+                      "color": { "type": "string", "description": "Hex color code for the habit" }
+                    },
+                    "required": ["id", "name", "color"]
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "code": { "type": "string" },
+                        "message": { "type": "string" },
+                        "resolution": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/stats": {
+      "get": {
+        "operationId": "getStats",
+        "summary": "Get user statistics",
+        "description": "Retrieve statistics for the authenticated user.",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "totalHabits": { "type": "integer", "description": "Total number of habits" },
+                    "completedToday": { "type": "integer", "description": "Number of habits completed today" }
+                  },
+                  "required": ["totalHabits", "completedToday"]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "OAuth2": {
+        "type": "oauth2",
+        "description": "OAuth 2.0 authentication",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sleek-tracker.vercel.app/api/auth/oauth/authorize",
+            "tokenUrl": "https://sleek-tracker.vercel.app/api/auth/oauth/token",
+            "scopes": {
+              "read:habits": "Read access to user habits",
+              "write:habits": "Write access to user habits"
+            }
+          }
+        }
+      }
+    }
+  }
+}

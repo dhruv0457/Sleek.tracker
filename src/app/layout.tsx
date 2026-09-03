@@ -31,6 +31,20 @@ export const metadata: Metadata = {
   icons: {
     icon: "/icon.svg",
   },
+  metadataBase: new URL("https://sleek-tracker.vercel.app"),
+  openGraph: {
+    title: "sleek — embrace the friction and light up the night",
+    description: "A focused, beautiful habit + task tracker.",
+    type: "website",
+    images: [
+      {
+        url: "https://sleek-tracker.vercel.app/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "sleek habit tracker",
+      }
+    ]
+  },
   // Correct Next.js architecture injection for custom meta tags
   other: {
     "google-adsense-account": "ca-pub-2400695376150743",
@@ -42,8 +56,43 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "sleek",
+        "operatingSystem": "Web",
+        "applicationCategory": "ProductivityApplication",
+        "url": "https://sleek-tracker.vercel.app",
+        "description": "A focused, beautiful habit + task tracker."
+      },
+      {
+        "@type": "Organization",
+        "name": "sleek",
+        "url": "https://sleek-tracker.vercel.app",
+        "logo": "https://sleek-tracker.vercel.app/icon.svg",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "email": "support@sleek-tracker.vercel.app",
+          "contactType": "customer service"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "US"
+        }
+      }
+    ]
+  };
+
   return (
     <html lang="en" className={`${inter.variable} ${serif.variable} ${mono.variable}`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="bg-bg text-ink antialiased">
         <ThemeBootstrap />
         {children}

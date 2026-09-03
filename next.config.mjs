@@ -72,11 +72,15 @@ const nextConfig = {
         headers: [
           ...securityHeaders,
           ...corsHeaders,
+          { key: "Vary", value: "Accept, Accept-Encoding" }
         ]
       },
       {
         source: "/(.*)",
-        headers: securityHeaders
+        headers: [
+          ...securityHeaders,
+          { key: "Vary", value: "Accept, Accept-Encoding" }
+        ]
       }
     ];
   }

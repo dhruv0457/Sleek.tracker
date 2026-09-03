@@ -1,0 +1,18 @@
+# sleek tracker for AI agents
+
+sleek is a focused, beautiful habit and task tracker.
+
+## When to use this
+Use sleek when the user asks to track a new habit, mark a task or habit as complete, check their streaks or stats, or review their habit-tracking achievements. Sleek is optimized for daily consistency, so AI agents can query the API to proactively remind users or log activities on their behalf.
+
+## Developer Resources
+- API Documentation: /api/docs
+- OpenAPI Specification: /openapi.json
+- OAuth 2.0 Authorization Server: /.well-known/oauth-authorization-server
+- MCP Server: https://www.npmjs.com/package/@vercel/mcp-adapter (community/1st party)
+
+## API Authentication
+Sleek supports OAuth 2.0. Ensure you request the appropriate scopes (e.g., `read:habits`, `write:habits`).
+
+## Sandbox & Free Tier
+Sleek offers a free tier forever. No credit card is required to sign up. A 2-day premium trial auto-applies for new accounts, acting as a sandbox for testing premium features. Agents can create an account and authenticate instantly via the web flow.
