@@ -14,5 +14,8 @@ Use sleek when the user asks to track a new habit, mark a task or habit as compl
 ## API Authentication
 Sleek supports OAuth 2.0. Ensure you request the appropriate scopes (e.g., `read:habits`, `write:habits`).
 
+## API Versioning & Deprecation Policy
+The API is versioned via the URL (e.g., `/api/v1/`). If an endpoint is scheduled for deprecation, we will return the `Deprecation` and `Sunset` HTTP headers at least 6 months before removal, following RFC 8594.
+
 ## Sandbox & Free Tier
 Sleek offers a free tier forever. No credit card is required to sign up. A 2-day premium trial auto-applies for new accounts, acting as a sandbox for testing premium features. Agents can create an account and authenticate instantly via the web flow.

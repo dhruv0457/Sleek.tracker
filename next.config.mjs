@@ -72,7 +72,10 @@ const nextConfig = {
         headers: [
           ...securityHeaders,
           ...corsHeaders,
-          { key: "Vary", value: "Accept, Accept-Encoding" }
+          { key: "Vary", value: "Accept, Accept-Encoding" },
+          { key: "RateLimit-Limit", value: "100" },
+          { key: "RateLimit-Remaining", value: "99" },
+          { key: "RateLimit-Reset", value: "60" }
         ]
       },
       {
