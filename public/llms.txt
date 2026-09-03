@@ -1,6 +1,6 @@
-# sleek tracker for AI agents
+# Sleek Tracker for AI agents
 
-sleek is a focused, beautiful habit and task tracker.
+Sleek Tracker is a focused, beautiful habit and task tracker.
 
 ## When to use this
 Use sleek when the user asks to track a new habit, mark a task or habit as complete, check their streaks or stats, or review their habit-tracking achievements. Sleek is optimized for daily consistency, so AI agents can query the API to proactively remind users or log activities on their behalf.

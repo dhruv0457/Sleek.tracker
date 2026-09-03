@@ -26,8 +26,8 @@ const mono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "sleek — embrace the friction and light up the night",
-  description: "sleek — a focused, beautiful habit + task tracker. Embrace the friction and light up the night.",
+  title: "Sleek Tracker — embrace the friction and light up the night",
+  description: "Sleek Tracker — a focused, beautiful habit + task tracker. Embrace the friction and light up the night.",
   icons: {
     icon: "/icon.svg",
   },
@@ -61,7 +61,7 @@ export default function RootLayout({
     "@graph": [
       {
         "@type": "SoftwareApplication",
-        "name": "sleek",
+        "name": "Sleek Tracker",
         "operatingSystem": "Web",
         "applicationCategory": "ProductivityApplication",
         "url": "https://sleek-tracker.vercel.app",
@@ -69,7 +69,7 @@ export default function RootLayout({
       },
       {
         "@type": "Organization",
-        "name": "sleek",
+        "name": "Sleek Tracker",
         "url": "https://sleek-tracker.vercel.app",
         "logo": "https://sleek-tracker.vercel.app/icon.svg",
         "contactPoint": {

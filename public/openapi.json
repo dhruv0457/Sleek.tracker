@@ -2,15 +2,13 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Sleek API",
-    "description": "Public REST API for sleek, a beautiful habit and task tracker. Used by agents and programmatic clients to fetch stats, manage habits, and check achievements.",
+    "description": "Public REST API for sleek, a beautiful habit and task tracker.",
     "version": "1.0.0"
   },
   "servers": [
     {
-      "url": "https://sleek-tracker.vercel.app"
-    },
-    {
-      "url": "http://localhost:3000"
+      "url": "https://sleek-tracker.vercel.app/api/v1",
+      "description": "v1 API"
     }
   ],
   "security": [
@@ -19,11 +17,23 @@
     }
   ],
   "paths": {
-    "/api/habits": {
+    "/habits": {
       "get": {
         "operationId": "getHabits",
         "summary": "List habits",
         "description": "Retrieve a list of all habits for the authenticated user.",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of habits to return",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful response",
@@ -34,9 +44,9 @@
                   "items": {
                     "type": "object",
                     "properties": {
-                      "id": { "type": "string", "description": "Unique identifier for the habit" },
-                      "name": { "type": "string", "description": "Name of the habit" },
-                      "color": { "type": "string", "description": "Hex color code for the habit" }
+                      "id": { "type": "string" },
+                      "name": { "type": "string" },
+                      "color": { "type": "string" }
                     },
                     "required": ["id", "name", "color"]
                   }
@@ -44,37 +54,33 @@
               }
             }
           },
-          "401": {
-            "description": "Unauthorized"
+          "4XX": {
+            "$ref": "#/components/responses/ErrorResponse"
           },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "object",
-                      "properties": {
-                        "code": { "type": "string" },
-                        "message": { "type": "string" },
-                        "resolution": { "type": "string" }
-                      }
-                    }
-                  }
-                }
-              }
-            }
+          "5XX": {
+            "$ref": "#/components/responses/ErrorResponse"
           }
         }
       }
     },
-    "/api/stats": {
+    "/stats": {
       "get": {
         "operationId": "getStats",
         "summary": "Get user statistics",
         "description": "Retrieve statistics for the authenticated user.",
+        "parameters": [
+          {
+            "name": "period",
+            "in": "query",
+            "description": "Time period for stats (e.g., 'weekly', 'monthly')",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["weekly", "monthly", "all_time"],
+              "default": "weekly"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful response",
@@ -83,19 +89,50 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "totalHabits": { "type": "integer", "description": "Total number of habits" },
-                    "completedToday": { "type": "integer", "description": "Number of habits completed today" }
+                    "totalHabits": { "type": "integer" },
+                    "completedToday": { "type": "integer" }
                   },
                   "required": ["totalHabits", "completedToday"]
                 }
               }
             }
+          },
+          "4XX": {
+            "$ref": "#/components/responses/ErrorResponse"
+          },
+          "5XX": {
+            "$ref": "#/components/responses/ErrorResponse"
           }
         }
       }
     }
   },
   "components": {
+    "responses": {
+      "ErrorResponse": {
+        "description": "Standardized error response",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorProblem"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "ErrorProblem": {
+        "type": "object",
+        "properties": {
+          "type": { "type": "string" },
+          "title": { "type": "string" },
+          "status": { "type": "integer" },
+          "detail": { "type": "string" },
+          "instance": { "type": "string" }
+        },
+        "required": ["type", "title", "status"]
+      }
+    },
     "securitySchemes": {
       "OAuth2": {
         "type": "oauth2",

@@ -35,6 +35,14 @@ Lap your past, grow your streaks, and watch a moon rise alongside your consisten
 
   const response = NextResponse.next();
   response.headers.append('Vary', 'Accept');
+
+  // Add rate limit headers to API routes
+  if (pathname.startsWith('/api/')) {
+    response.headers.set('RateLimit-Limit', '100');
+    response.headers.set('RateLimit-Remaining', '99');
+    response.headers.set('RateLimit-Reset', '60');
+  }
+
   return response;
 }
 
