@@ -88,6 +88,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${serif.variable} ${mono.variable}`}>
       <head>
+        <link rel="openapi" href="/openapi.json" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

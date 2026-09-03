@@ -3,9 +3,10 @@ import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
   const accept = request.headers.get('accept') || '';
+  const pathname = request.nextUrl.pathname;
   
-  // If the requester explicitly prefers text/markdown over HTML
-  if (accept.includes('text/markdown') && !accept.includes('text/html')) {
+  // If the requester explicitly prefers text/markdown over HTML, and they are on the homepage
+  if ((pathname === '/' || pathname === '/landing') && accept.includes('text/markdown') && !accept.includes('text/html')) {
     const markdownContent = `# Sleek Tracker
 
 Sleek is a focused, beautiful habit + task tracker.
@@ -32,7 +33,9 @@ Lap your past, grow your streaks, and watch a moon rise alongside your consisten
     });
   }
 
-  return NextResponse.next();
+  const response = NextResponse.next();
+  response.headers.append('Vary', 'Accept');
+  return response;
 }
 
 export const config = {
